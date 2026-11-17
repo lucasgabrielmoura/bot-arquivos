@@ -2,7 +2,7 @@
 
 Bot de Telegram particular que faz as conversões do iLovePDF **localmente**, sem mandar seus arquivos para nenhum site.
 Os arquivos ficam só no aparelho que roda o bot, numa pasta temporária apagada logo após cada conversão.
-Só os IDs liberados no `.env` conseguem usar.
+Por padrão qualquer pessoa que encontrar o bot pode usar. Para restringir, preencha `ALLOWED_USERS` no `.env`.
 
 ## O que ele faz
 
@@ -50,7 +50,7 @@ O celular do seu amigo só **roda o programa** e precisa de internet. A conta pe
    nano .env        # cole o BOT_TOKEN
    bash scripts/iniciar.sh
    ```
-4. No Telegram, mande `/meuid` para o bot, coloque o número em `ALLOWED_USERS` no `.env` (vários separados por vírgula: o seu e o do seu amigo) e reinicie com Ctrl+C e `bash scripts/iniciar.sh`.
+4. Pronto: qualquer pessoa já pode usar. (Opcional, para restringir: mande `/meuid` ao bot, coloque os IDs em `ALLOWED_USERS` separados por vírgula e reinicie.)
 
 A instalação baixa cerca de 1 GB (o LibreOffice é a maior parte). Sem LibreOffice o bot funciona, só fica sem Word/Excel/PPT → PDF; veja em `/ferramentas`.
 
@@ -69,7 +69,7 @@ Bots baixam arquivos de até **20 MB** e enviam até **50 MB**. Para ir até 2 G
 ## Privacidade
 
 - Nenhum arquivo sai do aparelho, exceto pelo próprio Telegram (que entrega e recebe as mensagens).
-- Quem não está em `ALLOWED_USERS` recebe só "Acesso negado". Os arquivos dessas pessoas nem são baixados.
+- Com `ALLOWED_USERS` vazio o bot é aberto a todos. Cada usuário tem sua própria pasta e só recebe os próprios resultados. Se preencher `ALLOWED_USERS`, quem não estiver na lista recebe só "Acesso negado" e os arquivos nem são baixados.
 - Arquivos temporários são apagados depois de cada resultado, em erro, em `/cancelar` e ao iniciar o bot. O log não registra nomes nem conteúdo de arquivos.
 - Mensagens com senha (Proteger/Desbloquear) são apagadas do chat pelo bot logo após a leitura.
 - Para mais privacidade, ative mensagens temporárias no chat com o bot. Lembre que o Telegram guarda os arquivos enviados na nuvem dele.

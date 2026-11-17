@@ -89,7 +89,7 @@ def restrito(func):
         if not user:
             return
         cfg: Config = context.bot_data["config"]
-        if user.id not in cfg.usuarios:
+        if not cfg.aberto and user.id not in cfg.usuarios:
             if update.callback_query:
                 try:
                     await update.callback_query.answer("Acesso negado.", show_alert=True)

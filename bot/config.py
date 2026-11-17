@@ -18,6 +18,7 @@ class Config:
     pasta_trabalho: Path
     max_jobs: int
     api_url: str | None = None
+    aberto: bool = False  # True = qualquer pessoa usa o bot
 
 
 def carregar() -> Config:
@@ -29,7 +30,8 @@ def carregar() -> Config:
     token = token.strip()
 
     allowed_raw = os.getenv("ALLOWED_USERS", "").strip()
-    if allowed_raw:
+    aberto = allowed_raw in ("", "*")
+    if not aberto:
         usuarios_list: list[int] = []
         for uid_str in allowed_raw.split(","):
             uid_str = uid_str.strip()
@@ -42,8 +44,8 @@ def carregar() -> Config:
     else:
         usuarios = frozenset()
 
-    if not usuarios:
-        logger.warning("nenhum usuario liberado")
+    if aberto:
+        logger.warning("ALLOWED_USERS vazio: bot liberado para qualquer pessoa")
 
     work_dir_raw = os.getenv("WORK_DIR", "./tmp_trabalho").strip()
     pasta_trabalho = Path(work_dir_raw if work_dir_raw else "./tmp_trabalho").resolve()
@@ -66,4 +68,5 @@ def carregar() -> Config:
         pasta_trabalho=pasta_trabalho,
         max_jobs=max_jobs,
         api_url=api_url,
+        aberto=aberto,
     )
